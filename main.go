@@ -1,8 +1,6 @@
 // executable package
 package main
 
-import "fmt"
-
 // will be called when we execute this file
 func main() {
 	// create a variable and give it an assignment
@@ -21,19 +19,20 @@ func main() {
 	// fmt.Println(card)
 
 	// This is a slice, using deck type from deck.go
-	cards := deck{"Ace of Diamonds", newCard()}
+	//cards := deck{"Ace of Diamonds", newCard()}
 
 	// Adding a new card to the cards slice
 	// Doesn't modify existing slice, returns a new slice
-	cards = append(cards, "Six of Hearts")
+	//cards = append(cards, "Six of Hearts")
+
+	// cards is the result of calling newDeck function
+	cards := newDeck()
 
 	// Iterate over cards slice
-	//
-	for i, card := range cards {
-		fmt.Println(i, card)
-	}
+	// Using "deck" print method
+	cards.print()
 
-	fmt.Println(cards)
+	//fmt.Println(cards)
 }
 
 // will return value of card variable
