@@ -28,9 +28,19 @@ func main() {
 	// cards is the result of calling newDeck function
 	cards := newDeck()
 
+	// create hands
+	// since deal returns 2 decks, we need to create
+	// variables to capture them
+	hand, remainingCards := deal(cards, 5)
+
+	// print out hand and remainingCards (we can do that
+	// since both are of type deck)
+	hand.print()
+	remainingCards.print()
+
 	// Iterate over cards slice
 	// Using "deck" print method
-	cards.print()
+	//cards.print()
 
 	//fmt.Println(cards)
 }
@@ -38,7 +48,7 @@ func main() {
 // will return value of card variable
 // 'string' after parentheses tells Go compiler to expect function
 // to return a string
-func newCard() string {
-	// returns a string
-	return "Five of Hearts"
-}
+//func newCard() string {
+// returns a string
+//return "Five of Hearts"
+//}

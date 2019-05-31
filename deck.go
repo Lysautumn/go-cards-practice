@@ -37,3 +37,12 @@ func (d deck) print() {
 		fmt.Println(i, card)
 	}
 }
+
+// function to deal a hand of cards, returning hand and remaining cards (decks)
+// function contains argument: pass in a deck
+// and an integer representing the size of the hand
+// 'd' and 'handSize' is the variable name we will use
+// within the function (d is convention)
+func deal(d deck, handSize int) (deck, deck) {
+	return d[:handSize], d[handSize:]
+}
