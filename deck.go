@@ -5,7 +5,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
+	"os"
 	"strings"
+	"time"
 )
 
 // Create a new type ('deck'), a slice of strings
@@ -72,4 +75,59 @@ func (d deck) toString() string {
 // 0666 permissions means anyone can read and write this file
 func (d deck) saveToFile(filename string) error {
 	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
+}
+
+// function reads local my_cards file
+// return a deck
+func newDeckFromFile(filename string) deck {
+	// creating variables to represent info
+	// returned from ReadFile function: the byte slice
+	// and an error object
+	bs, err := ioutil.ReadFile(filename)
+	// if there is an error, error handling
+	// error handling is tough because it depends on the error
+	if err != nil {
+		// If something goes wrong, what do I want to happen?
+		// Option 1 - log error and return call to newDeck
+		// Option 2 - log error and entirely quit the program because
+		// something is really wrong
+		fmt.Println("Error:", err)
+		// Use Go os package to quit the program
+		os.Exit(1)
+	}
+	// we have a value in our byte slice we can turn into a deck
+	// convert byte slice into a string using string(bs)
+	// convert string into slice of string
+	// use strings package again, Split function
+	// assign return to "s" variable
+	s := strings.Split(string(bs), ",")
+
+	// type conversion to change slice of string into deck
+	// we can do this because deck type extends slice of string
+	// return it
+	return deck(s)
+}
+
+// function to shuffle
+// take the deck, randomize the order inside of it
+func (d deck) shuffle() {
+	// make new truly random generator
+	// create a new source
+	// pass in int64, we want it to be a little different every time
+	// use time now function, UnixNano, this will make it random
+	source := rand.NewSource(time.Now().UnixNano())
+
+	// create new Rand value to use with Intn
+	r := rand.New(source)
+
+	for i := range d {
+		// create random number between 0 and length of array - 1
+		newPosition := r.Intn(len(d) - 1)
+
+		// swap cards at each position
+		// this works (sort of), but last 4 are always the same
+		// the rand.Intn is a pseudo random generator, it always uses
+		// the same seed, so we always get the same sequence
+		d[i], d[newPosition] = d[newPosition], d[i]
+	}
 }
