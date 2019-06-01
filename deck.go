@@ -1,7 +1,12 @@
 // part of the executable main package
 package main
 
-import "fmt"
+// multiple imports
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
 
 // Create a new type ('deck'), a slice of strings
 type deck []string
@@ -45,4 +50,26 @@ func (d deck) print() {
 // within the function (d is convention)
 func deal(d deck, handSize int) (deck, deck) {
 	return d[:handSize], d[handSize:]
+}
+
+// helper function takes a deck to convert to string
+// receiver function
+func (d deck) toString() string {
+	// I want to convert my deck into a slice of strings
+	// deck is a slice of strings (we extended the string type
+	// when we created the deck type) so this conversion is
+	// straightforward
+	//[]string(d)
+
+	// join values in slice into comma-separated values in a string
+	// built-in package "strings", use Join function
+	return strings.Join([]string(d), ",")
+}
+
+// function to save byte slice to local machine, returns
+// error if one is produced
+// receiver function
+// 0666 permissions means anyone can read and write this file
+func (d deck) saveToFile(filename string) error {
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
 }
