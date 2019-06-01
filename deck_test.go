@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 // TestNewDeck function
 // Convention to start testing functions with uppercase letter
@@ -29,3 +32,27 @@ func TestNewDeck(t *testing.T) {
 }
 
 // Testing File IO
+// testing saveToFile and newDeckFromFile functions
+// Long name, but if test fails, we know exactly what function
+// to change without much effort
+func TestSaveToFileAndNewDeckFromFile(t *testing.T) {
+	// check for _decktesting file and remove
+	os.Remove("_decktesting")
+
+	// create new deck
+	deck := newDeck()
+
+	// save to file
+	deck.saveToFile("_decktesting")
+
+	// load from deck
+	loadedDeck := newDeckFromFile("_decktesting")
+
+	// is the deck the right length?
+	if len(loadedDeck) != 16 {
+		t.Errorf("Expected 16 cards in deck, got %v", len(loadedDeck))
+	}
+
+	// clean up test file
+	os.Remove("_decktesting")
+}
